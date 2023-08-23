@@ -118,6 +118,7 @@ def generate_seq_feature(data,
                          item_col,
                          time_col,
                          item_attribute_cols=[],
+                         user_attribute_cols=[],
                          min_item=0,
                          shuffle=True,
                          max_len=50):
@@ -156,9 +157,18 @@ def generate_seq_feature(data,
             map = data[[item_col, col]]
             item2attr[col] = map.set_index([item_col])[col].to_dict()
 
+    # generate user to attribute mapping
+    n_users = data[user_col].max()
+    user2attr = {}
+    if len(user_attribute_cols) > 0:
+        for col in user_attribute_cols:
+            map2 = data[[user_col, col]]
+            user2attr[col] = map2.set_index([user_col])[col].to_dict()
+
     train_data, val_data, test_data = [], [], []
-    data.sort_values(time_col, inplace=True)
+    data.sort_values(time_col, inplace=True)  #sort_values按时间对数据集进行排序
     # Sliding window to construct negative samples
+
     for uid, hist in tqdm.tqdm(data.groupby(user_col), desc='generate sequence features'):
         pos_list = hist[item_col].tolist()
         len_pos_list = len(pos_list)

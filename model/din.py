@@ -44,8 +44,8 @@ class DIN (nn.Module):
 
         mlp_in = torch.cat([
             attention_pooling.flatten(start_dim=1),
-            embed_x_features.flatten(stat_dim=1),
-            embed_x_features.flatten(stat_dim=1),
+            embed_x_features.flatten(start_dim=1),
+            embed_x_features.flatten(start_dim=1),
         ],dim=1)# (batch_size,N)
 
         y=self.mlp(mlp_in)

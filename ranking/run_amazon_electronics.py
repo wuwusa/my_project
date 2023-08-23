@@ -17,6 +17,7 @@ def get_amazon_data_dict(dataset_path):
     train, val, test = generate_seq_feature(data=data, user_col="user_id", item_col="item_id", time_col='time', item_attribute_cols=["cate_id"])
     print('INFO: Now, the dataframe named: ', train.columns)
     n_users, n_items, n_cates = data["user_id"].max(), data["item_id"].max(), data["cate_id"].max()
+    pd.set_option('display.max_columns', 20)  # 给最大列设置为10列
     print(train)
 
     features = [SparseFeature("target_item_id", vocab_size=n_items+1, embed_dim=8), SparseFeature("target_cate_id", vocab_size=n_cates+1, embed_dim=8), SparseFeature("user_id", vocab_size=n_users+1, embed_dim=8)]
@@ -57,7 +58,7 @@ def main(dataset_path, epoch, learning_rate, batch_size, weight_decay, device, s
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset_path', default="./data/amazon-electronics/amazon_electronics_sample.csv")
+    parser.add_argument('--dataset_path', default="./data/amazon-electronics/amazon_electronic_datasets.csv")
     parser.add_argument('--epoch', type=int, default=2)
     parser.add_argument('--learning_rate', type=float, default=1e-3)
     parser.add_argument('--batch_size', type=int, default=4096)

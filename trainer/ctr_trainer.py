@@ -32,7 +32,7 @@ class CTRTrainer(object):
         optimizer_params=None,
         scheduler_fn=None,
         scheduler_params=None,
-        n_epoch=10,
+        n_epoch=50,
         earlystop_patience=10,
         device="gpu",  # 这里改成了gpu，原本是cpu
         gpus=[0,1,2],  # 添加gpu
